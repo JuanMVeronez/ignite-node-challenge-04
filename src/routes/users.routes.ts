@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { IListAllUsersRequestRequest } from "modules/users/useCases/listAllUsers/ListAllUsersController";
 
 import { createUserController } from "../modules/users/useCases/createUser";
 import { listAllUsersController } from "../modules/users/useCases/listAllUsers";
@@ -19,7 +20,7 @@ usersRoutes.get("/:user_id", (request, response) =>
   showUserProfileController.handle(request, response)
 );
 
-usersRoutes.get("/", (request, response) =>
+usersRoutes.get("/", (request: IListAllUsersRequestRequest, response) =>
   listAllUsersController.handle(request, response)
 );
 
