@@ -1,0 +1,331 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Atlas",
+    "description": "Essa é a documentação do Atlas API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User management"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "List all users",
+        "description": "Get all users if the user is admin",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation done",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "72af2702-6a1b-4567-b8d1-b8b9256bc058",
+                      "created_at": "2022-04-22T00:45:46.367Z",
+                      "admin": false,
+                      "updated_at": "2022-04-22T00:45:46.367Z",
+                      "name": "John Doe",
+                      "email": "john.doe@example.com"
+                    },
+                    {
+                      "id": "10e508f6-d339-464c-b07d-450c4c7efbec",
+                      "created_at": "2022-04-22T00:47:12.915Z",
+                      "admin": true,
+                      "updated_at": "2022-04-22T00:47:12.915Z",
+                      "name": "Anyone",
+                      "email": "anyone@example.com"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: User not found or not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "You need to be a administrator to list the users"
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+      },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john.doe@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }, 
+                  "example": {
+                    "id": "72af2702-6a1b-4567-b8d1-b8b9256bc058",
+                    "created_at": "2022-04-22T00:45:46.367Z",
+                    "admin": false,
+                    "updated_at": "2022-04-22T00:45:46.367Z",
+                    "name": "John Doe",
+                    "email": "john.doe@example.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "User already exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Show user",
+        "description": "Get user data by user id",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }, 
+                  "example": {
+                    "id": "72af2702-6a1b-4567-b8d1-b8b9256bc058",
+                    "created_at": "2022-04-22T00:45:46.367Z",
+                    "admin": false,
+                    "updated_at": "2022-04-22T00:45:46.367Z",
+                    "name": "John Doe",
+                    "email": "john.doe@example.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Set user as admin",
+        "description": "Get a user by user id and set the user as admin",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User administrator role added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }, 
+                  "example": {
+                    "id": "72af2702-6a1b-4567-b8d1-b8b9256bc058",
+                    "created_at": "2022-04-22T00:45:46.367Z",
+                    "admin": true,
+                    "updated_at": "2022-04-22T00:45:46.367Z",
+                    "name": "John Doe",
+                    "email": "john.doe@example.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error: User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
